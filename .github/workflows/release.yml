@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  hex-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Beam
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: "27"
+          rebar3-version: "3.24"
+
+      - name: Replace Version with Tag
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          VERSION=${RELEASE_TAG#v}  # Remove leading "v" if present
+          sed -i "s/{vsn, \".*\"}/{vsn, \"$VERSION\"}/" src/*.app.src
+
+      - name: Generate Docs
+        run: rebar3 edoc
+
+      - name: Publish to Hex
+        run: rebar3 hex publish -r hexpm --yes
+        env:
+          HEX_API_KEY: ${{ secrets.HEX_API_TOKEN }}
