@@ -1,4 +1,4 @@
--module(rebar3_erlembic_downgrade).
+-module(erlembic_downgrade).
 
 -export([run/1]).
 

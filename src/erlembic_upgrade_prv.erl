@@ -1,4 +1,4 @@
--module(rebar3_erlembic_upgrade_prv).
+-module(erlembic_upgrade_prv).
 
 -export([init/1, do/1, format_error/1]).
 
@@ -42,8 +42,8 @@ init(State) ->
 -spec do(rebar_state:t()) -> {ok, rebar_state:t()} | {error, string()}.
 do(State) ->
     {Args, _} = rebar_state:command_parsed_args(State),
-    rebar3_erlembic_upgrade:run(
-        rebar3_erlembic_utils:extract_arg_value(Args, revision)
+    erlembic_upgrade:run(
+        erlembic_utils:extract_arg_value(Args, revision)
     ),
     {ok, State}.
 

@@ -1,4 +1,4 @@
--module(rebar3_erlembic_revision).
+-module(erlembic_revision).
 
 -export([run/1]).
 
