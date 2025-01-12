@@ -1,8 +1,8 @@
--module(rebar3_erlembic_downgrade_prv).
+-module(erlembic_revision_prv).
 
 -export([init/1, do/1, format_error/1]).
 
--define(PROVIDER, downgrade).
+-define(PROVIDER, revision).
 -define(NAMESPACE, erlembic).
 -define(DEPS, [{default, app_discovery}]).
 
@@ -23,27 +23,27 @@ init(State) ->
         % The list of dependencies
         {deps, ?DEPS},
         % How to use the plugin
-        {example, "rebar3 erlembic downgrade -r 1"},
+        {example, "rebar3 erlembic revision -n create_table_users"},
         % list of options understood by the plugin
         {opts, [
             {
-                revision,
+                name,
                 $n,
-                "revision",
-                {integer, 0},
-                "Number of the revision script."
+                "name",
+                {string, "revision_script"},
+                "Name of the SQL file for new revision script."
             }
         ]},
-        {short_desc, "Revert to a previous version"},
-        {desc, "Revert to a previous version"}
+        {short_desc, "Create a new revision file"},
+        {desc, "Create a new revision file"}
     ]),
     {ok, rebar_state:add_provider(State, Provider)}.
 
 -spec do(rebar_state:t()) -> {ok, rebar_state:t()} | {error, string()}.
 do(State) ->
     {Args, _} = rebar_state:command_parsed_args(State),
-    rebar3_erlembic_downgrade:run(
-        rebar3_erlembic_utils:extract_arg_value(Args, revision)
+    erlembic_revision:run(
+        erlembic_utils:extract_arg_value(Args, name)
     ),
     {ok, State}.
 

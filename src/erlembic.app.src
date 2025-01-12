@@ -1,4 +1,4 @@
-{application, rebar3_erlembic, [
+{application, erlembic, [
     {description, "A database migrations tool for Erlang"},
     {vsn, "0.1.0"},
     {registered, []},
@@ -10,6 +10,6 @@
     {modules, []},
     {licenses, ["Apache-2.0"]},
     {links, [
-        {"Github", "https://github.com/mochams/rebar3_erlembic"}
+        {"Github", "https://github.com/mochams/erlembic"}
     ]}
 ]}.
